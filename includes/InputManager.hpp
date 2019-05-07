@@ -1,6 +1,8 @@
 #ifndef _INPUTMANAGER_H
 #define _INPUTMANAGER_H
+
 #include <SDL.h>
+
 #include <string>
 #include "MathHelper.hpp"
 

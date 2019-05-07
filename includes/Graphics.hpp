@@ -1,8 +1,10 @@
 #ifndef _GRAPHICS_HPP
 #define _GRAPHICS_HPP
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
 #include <string>
 #include <iostream>
 	
