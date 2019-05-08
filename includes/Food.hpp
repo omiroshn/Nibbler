@@ -16,6 +16,9 @@ public:
 	Food(const std::string& filePath, Vector2 position, int32_t _x, int32_t _y, int32_t _width, int32_t _heigh);
 	~Food();
 
+	void			SetRespawnDementions(int32_t width, int32_t height);
+	int32_t			FoodValue() const { return foodValue; }
+
 	void			Update();
 	void			Render();
 	
@@ -23,6 +26,8 @@ public:
 protected:
 
 	int32_t			foodValue;
+	int32_t			mWidth;
+	int32_t			mHeight;
 	Texture*		foodTexture;
 };
 

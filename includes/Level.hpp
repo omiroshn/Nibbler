@@ -18,6 +18,8 @@ public:
 	bool						LoadLevel(const std::string& fileName);
 	Vector2						PlayerPosition()	const;
 	std::vector<Vector2>		WallsPosition()		const;
+	int32_t						LevelWidth()		const;
+	int32_t						LevelHeight()		const;
 
 protected:
 	Vector2						playerPosition;
