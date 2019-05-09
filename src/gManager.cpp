@@ -36,8 +36,12 @@ gManager::gManager()
 	mPlayer			= new Player("snake.png");
 	mFood			= new Food("snake.png", Vector2(64.0f, 64.0f), 0, 96, 32, 32);
 	mLevel			= new Level();
+
+	// $todo -> set below part into the function and call after level is complete
+	// $todo -> make a vector of levels, in32_t - current level
 	mLevel->LoadLevel("map1.txt");
 	mLevel->ParseLevel();
+	mFood->SetRespawnDementions(mLevel->LevelWidth(), mLevel->LevelHeight());
 	//mPlayer->Pos(mLevel->PlayerPosition());
 	for(size_t i = 0; i < mLevel->WallsPosition().size(); ++i)
 	{
@@ -131,12 +135,12 @@ void gManager::run()
 		mPlayer->HandleInput(mTimer->getDeltaTime());
 		if (mTimer->getDeltaTime() >= (10.0f / FrameRate))
 		{
+			CheckCollision();
+			Update();
 			mGraphics->ClearBuffer();
+
 			HandleInput();
 			
-			Update();
-			CheckCollision();
-
 			for(auto &wall : mWalls)
 			{
 				wall->Render();
