@@ -68,7 +68,6 @@ void Player::Render()
 //-------------------------------------------------------------------------------------------------
 void Player::HandleInput(float deltaTime)
 {
-
 	mInputManager->Update();
 	if (mInputManager->KeyDown(SDL_SCANCODE_W) && snakeTextures.front()->Direction() != DOWN_DIR)
 	{
@@ -76,19 +75,19 @@ void Player::HandleInput(float deltaTime)
 		snakeTextures.front()->setStartY(0);
 		snakeTextures.front()->Direction(UP_DIR);
 	}
-	if (mInputManager->KeyDown(SDL_SCANCODE_S) && snakeTextures.front()->Direction() != UP_DIR)
+	else if (mInputManager->KeyDown(SDL_SCANCODE_S) && snakeTextures.front()->Direction() != UP_DIR)
 	{
 		snakeTextures.front()->setStartX(128);
 		snakeTextures.front()->setStartY(32);
 		snakeTextures.front()->Direction(DOWN_DIR);
 	}
-	if (mInputManager->KeyDown(SDL_SCANCODE_D) && snakeTextures.front()->Direction() != LEFT_DIR)
+	else if (mInputManager->KeyDown(SDL_SCANCODE_D) && snakeTextures.front()->Direction() != LEFT_DIR)
 	{
 		snakeTextures.front()->setStartX(128);
 		snakeTextures.front()->setStartY(0);
 		snakeTextures.front()->Direction(RIGHT_DIR);
 	}
-	if (mInputManager->KeyDown(SDL_SCANCODE_A) && snakeTextures.front()->Direction() != RIGHT_DIR)
+	else if (mInputManager->KeyDown(SDL_SCANCODE_A) && snakeTextures.front()->Direction() != RIGHT_DIR)
 	{
 		snakeTextures.front()->setStartX(96);
 		snakeTextures.front()->setStartY(32);
@@ -120,7 +119,7 @@ void Player::CollideWithWall()
 //-------------------------------------------------------------------------------------------------
 void Player::CollideWithFood()
 {
-	// score += Food->ValueScore() // like this
+	// score += Food->ValueScore() // like this, in gManager set Player Score
 
 	score += 10;
 	BodyGrow();
@@ -153,6 +152,7 @@ void Player::BodyGrow()
 	snakeTextures.back()->Direction(prevBodyPartDir);
 	tailTexture->Pos(snakeTextures.back()->Pos());
 	tailTexture->Direction(snakeTextures.back()->Direction());
+	//Update();
 }
 //=================================================================================================
 // Translate
@@ -166,8 +166,8 @@ void Player::Translate(Vector2 _amount)
 	Vector2 prevBodyPos;
 	Vector2 prevBodyDir;
 
-	snakeTextures[0]->Pos(mPos);
-
+	snakeTextures.front()->Pos(mPos);
+	// 1 because 0 is head
 	for(size_t i = 1; i < snakeTextures.size(); ++i)
 	{
 		prevBodyPos		= snakeTextures[i]->Pos();

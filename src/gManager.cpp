@@ -107,7 +107,6 @@ void gManager::Update()
 //-------------------------------------------------------------------------------------------------
 void gManager::CheckCollision()
 {
-
 	if (mPlayer->CheckCircleCollision(*mPlayer, *mFood))
 	{
 		mPlayer->Collide(*mFood);
@@ -122,7 +121,6 @@ void gManager::run()
 {
 	while (!_isDone)
 	{
-		mTimer->Update();
 		while (SDL_PollEvent(&mEvent) != 0)
 		{
 			if (mEvent.type == SDL_QUIT || (mEvent.type == SDL_KEYDOWN &&
@@ -132,14 +130,14 @@ void gManager::run()
 			}
 		}
 
+		mTimer->Update();
 		mPlayer->HandleInput(mTimer->getDeltaTime());
 		if (mTimer->getDeltaTime() >= (10.0f / FrameRate))
 		{
+			HandleInput();
 			CheckCollision();
 			Update();
 			mGraphics->ClearBuffer();
-
-			HandleInput();
 			
 			for(auto &wall : mWalls)
 			{

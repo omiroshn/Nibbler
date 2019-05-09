@@ -79,12 +79,13 @@ inline Vector2 operator*(const Vector2 &lhs, const float &rhs)
 inline Vector2 RotateVector(Vector2 &vec, float angle)
 {
 	float radAngle = static_cast<float>(angle * DEG_TO_RAD);
-	return Vector2(static_cast<float>(vec.x * cos(radAngle) - vec.y * sin(radAngle)), vec.x * sin(radAngle) + vec.y * cos(radAngle));
+	return Vector2(static_cast<float>(vec.x * cos(radAngle) - vec.y * sin(radAngle)), static_cast<float>(vec.x * sin(radAngle) + vec.y * cos(radAngle)));
 }
 
 const Vector2 RIGHT_DIR	= {32.0f, 0.0f};
 const Vector2 LEFT_DIR	= {-32.0f, 0.0f};
 const Vector2 UP_DIR	= {0.0f, -32.0f};
 const Vector2 DOWN_DIR	= {0.0f, 32.0f};
+const Vector2 VEC2_ZERO	= {0.0f, 0.0f};
 
 #endif
