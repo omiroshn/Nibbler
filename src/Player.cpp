@@ -14,17 +14,17 @@ Player::Player(const std::string& _filePath)
 
 	snakeTextures.reserve(100);
 
-	snakeTextures.push_back(new Texture(_filePath, 96, 0, 32, 32));
+	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 96, 0, 32, 32));
 	snakeTextures.back()->Direction(UP_DIR);
 	snakeTextures.back()->Pos(mPos);
 
-	snakeTextures.push_back(new Texture(_filePath, 64, 32, 32, 32));
+	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 64, 32, 32, 32));
 	snakeTextures.back()->Pos(Vector2(128.0f, 160.0f));
 
-	snakeTextures.push_back(new Texture(_filePath, 64, 32, 32, 32));
+	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 64, 32, 32, 32));
 	snakeTextures.back()->Pos(Vector2(128.0f, 192.0f)); 
 
-	tailTexture		= new Texture(_filePath, 96, 64, 32, 32);
+	tailTexture		= std::make_unique<Texture>(_filePath, 96, 64, 32, 32);
 	tailTexture->Pos(Vector2(128.0f, 224.0f));
 	mInputManager	= InputManager::Instance();
 
@@ -33,18 +33,7 @@ Player::Player(const std::string& _filePath)
 //	~Player
 //-------------------------------------------------------------------------------------------------
 Player::~Player()
-{
-	if(tailTexture)
-	{
-		delete tailTexture;
-		tailTexture = nullptr;
-	}
-	for(auto &body : snakeTextures)
-	{
-		delete body;
-		body = nullptr;
-	}
-}
+{}
 //=================================================================================================
 // Update
 //-------------------------------------------------------------------------------------------------
@@ -147,7 +136,7 @@ void Player::BodyGrow()
 
 	Vector2 prevBodyPartPos = snakeTextures.back()->Pos();
 	Vector2 prevBodyPartDir = snakeTextures.back()->Direction();
-	snakeTextures.push_back(new Texture(filePath, 96, 0, 32, 32));
+	snakeTextures.push_back(std::make_unique<Texture>(filePath, 96, 0, 32, 32));
 	snakeTextures.back()->Pos(prevBodyPartPos);
 	snakeTextures.back()->Direction(prevBodyPartDir);
 	tailTexture->Pos(snakeTextures.back()->Pos());

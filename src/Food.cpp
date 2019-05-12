@@ -12,7 +12,7 @@ Food::Food(const std::string& filePath, Vector2 _position, int32_t _x, int32_t _
 	foodValue		= 10;
 	mWidth			= 0;
 	mHeight			= 0;
-	foodTexture		= new Texture(filePath, _x, _y, _width, _heigh);
+	foodTexture		= std::make_unique<Texture>(filePath, _x, _y, _width, _heigh);
 	mPos			= _position;
 	foodTexture->Pos(mPos);
 }
@@ -20,13 +20,7 @@ Food::Food(const std::string& filePath, Vector2 _position, int32_t _x, int32_t _
 //	~Food
 //-------------------------------------------------------------------------------------------------
 Food::~Food()
-{
-	if(foodTexture)
-	{
-		delete foodTexture;
-		foodTexture = nullptr;
-	}
-}
+{}
 //=================================================================================================
 // SetRespawnDementions
 //-------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 Wall::Wall(const std::string& filePath, Vector2 _position, int32_t _x, int32_t _y, int32_t _width, int32_t _heigh)
 : eInherited(static_cast<float>(_width / 2), WALL)
 {
-	wallTexture		= new Texture(filePath, _x, _y, _width, _heigh);
+	wallTexture		= std::make_unique<Texture>(filePath, _x, _y, _width, _heigh);
 	mPos			= _position;
 	wallTexture->Pos(mPos);
 }
@@ -14,13 +14,7 @@ Wall::Wall(const std::string& filePath, Vector2 _position, int32_t _x, int32_t _
 // ~Wall
 //-------------------------------------------------------------------------------------------------
 Wall::~Wall()
-{
-	if(wallTexture)
-	{
-		delete wallTexture;
-	}
-	wallTexture = nullptr;
-}
+{}
 //=================================================================================================
 // Update
 //-------------------------------------------------------------------------------------------------

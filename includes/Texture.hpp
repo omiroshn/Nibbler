@@ -23,7 +23,7 @@ public:
 protected:
 
 	SDL_Texture*	mTex;
-	Graphics*		mGraphics;
+	Graphics*		mGraphics; //singeltone
 
 	int mWidth;
 	int mHeight;

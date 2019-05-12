@@ -25,10 +25,10 @@ public:
 	void			ReSpawn();
 protected:
 
-	int32_t			foodValue;
-	int32_t			mWidth;
-	int32_t			mHeight;
-	Texture*		foodTexture;
+	int32_t						foodValue;
+	int32_t						mWidth;
+	int32_t						mHeight;
+	std::unique_ptr<Texture>	foodTexture;
 };
 
 #endif

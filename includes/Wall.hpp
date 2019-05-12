@@ -16,8 +16,9 @@ public:
 
 	void			Update();
 	void			Render();
+
 protected:
-	Texture*		wallTexture; 
+	std::unique_ptr<Texture>	wallTexture; 
 };
 
 #endif

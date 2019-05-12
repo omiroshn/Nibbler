@@ -1,6 +1,7 @@
 #ifndef _GAMEENTITY_HPP
 #define _GAMEENTITY_HPP
 #include "MathHelper.hpp"
+#include <memory>
 
 //**************************************************************************************************
 //	GameEntity

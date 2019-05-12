@@ -30,18 +30,18 @@ private:
 	static gManager*	sInstance;
 	const int 			FrameRate = 60;
 	bool 				_isDone;
-	Graphics*			mGraphics;
 	SDL_Event 			mEvent;
+	//Singeltontes =========================================
+	Graphics*			mGraphics;
 	AssetManager*		mAssetMgr;
 	InputManager*		mInputManager;
 	AudioManager*		mAudioMan;
-
 	Timer*				mTimer;
-	Level*				mLevel; // make a vector of levels
-	//Wall*				mWall	= nullptr;
-	Player*				mPlayer;
-	Food*				mFood;
-	std::vector<Wall*>	mWalls;
+	//Game Staff --------------------------------------------
+	std::unique_ptr<Level>				mLevel; // make a vector of levels
+	std::unique_ptr<Player>				mPlayer;
+	std::unique_ptr<Food>				mFood;
+	std::vector<std::unique_ptr<Wall>>	mWalls;
 };
 
 #endif

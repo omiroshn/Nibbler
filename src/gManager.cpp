@@ -33,9 +33,9 @@ gManager::gManager()
 	mAudioMan		= AudioManager::Instance();
 	mTimer			= Timer::Instance();
 
-	mPlayer			= new Player("snake.png");
-	mFood			= new Food("snake.png", Vector2(64.0f, 64.0f), 0, 96, 32, 32);
-	mLevel			= new Level();
+	mPlayer			= std::make_unique<Player>("snake.png");
+	mFood			= std::make_unique<Food>("snake.png", Vector2(64.0f, 64.0f), 0, 96, 32, 32);
+	mLevel			= std::make_unique<Level>();
 
 	// $todo -> set below part into the function and call after level is complete
 	// $todo -> make a vector of levels, in32_t - current level
@@ -45,10 +45,8 @@ gManager::gManager()
 	//mPlayer->Pos(mLevel->PlayerPosition());
 	for(size_t i = 0; i < mLevel->WallsPosition().size(); ++i)
 	{
-		mWalls.emplace_back(new Wall("st.bmp", mLevel->WallsPosition()[i], 0, 0, 32, 32));
+		mWalls.emplace_back(std::make_unique<Wall>("st.bmp", mLevel->WallsPosition()[i], 0, 0, 32, 32));
 	}
-	// mFont = new Texture("Hello world", "Roboto-Black.ttf", 32, {0, 0, 0, 0});
-	// mFont->Pos(Vector2(200, 200));
 }
 
 gManager::~gManager()
@@ -68,23 +66,6 @@ gManager::~gManager()
 	Timer::Release();
 	mTimer = nullptr;
 
-	delete mLevel;
-	mLevel = nullptr;
-
-	delete mPlayer;
-	mPlayer = nullptr;
-	
-	delete mFood;
-	mFood = nullptr;
-
-	for(auto wall : mWalls)
-	{
-		if(wall)
-		{
-			delete wall;
-			wall = nullptr;
-		}
-	}
 	mWalls.clear();
 }
 //=================================================================================================

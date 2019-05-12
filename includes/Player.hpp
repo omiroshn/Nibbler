@@ -1,9 +1,9 @@
 #ifndef _PLAYER_HPP_
 #define	_PLAYER_HPP_
 
-#include "Texture.hpp"
-#include "InputManager.hpp"
 #include "Collider.hpp"
+#include "InputManager.hpp"
+#include "Texture.hpp"
 #include <vector>
 
 //**************************************************************************************************
@@ -33,13 +33,13 @@ protected:
 	void			ChangeDirectionTail(Texture&);
 	void			BodyGrow();
 
-	bool					isAlive;
-	float					speed;
-	int32_t					score;
-	std::string				filePath;
-	Texture*				tailTexture; 
-	std::vector<Texture*>	snakeTextures;
-	InputManager*			mInputManager;
+	bool									isAlive;
+	float									speed;
+	int32_t									score;
+	std::string								filePath;
+	std::unique_ptr<Texture>				tailTexture;
+	std::vector<std::unique_ptr<Texture>>	snakeTextures;
+	InputManager*							mInputManager;
 };
 
 #endif 
