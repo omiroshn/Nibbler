@@ -57,7 +57,7 @@ void Player::Render()
 //-------------------------------------------------------------------------------------------------
 void Player::HandleInput(float deltaTime)
 {
-	mInputManager->Update();
+	//mInputManager->Update();
 	if (mInputManager->KeyDown(SDL_SCANCODE_W) && snakeTextures.front()->Direction() != DOWN_DIR)
 	{
 		snakeTextures.front()->setStartX(96);

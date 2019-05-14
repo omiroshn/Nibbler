@@ -63,7 +63,7 @@ bool Graphics::Init()
 		std::cout << SDL_GetError() << std::endl;
 		return false;
 	}
-	SDL_SetRenderDrawColor(mRenderer, 0xff, 0xff, 0xff, 0xff);
+	SDL_SetRenderDrawColor(mRenderer, 230, 0xff, 0xff, 0xff);
 
 	int flags = IMG_INIT_PNG;
 	if (!(IMG_Init(flags) & flags)){

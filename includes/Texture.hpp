@@ -11,9 +11,9 @@ class Texture : public GameEntity
 {
 public:
 
-	Texture(std::string const &path);
-	Texture(std::string const &path, int x, int y, int w, int h);
-	Texture(std::string text, std::string path, int size, SDL_Color color);
+	Texture(const std::string& path);
+	Texture(const std::string& path, int x, int y, int w, int h);
+	Texture(const std::string& text, const std::string& path, int size, SDL_Color color);
 	virtual ~Texture();
 
 	virtual void	Render();

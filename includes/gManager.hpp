@@ -6,6 +6,7 @@
 #include "Food.hpp"
 #include "Level.hpp"
 #include "Player.hpp"
+#include "StartScreen.hpp"
 #include "Wall.hpp"
 #include <memory>
 
@@ -42,6 +43,8 @@ private:
 	std::unique_ptr<Player>				mPlayer;
 	std::unique_ptr<Food>				mFood;
 	std::vector<std::unique_ptr<Wall>>	mWalls;
+	//StartScreen
+	std::unique_ptr<StartScreen>		mStartScreen;
 };
 
 #endif

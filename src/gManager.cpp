@@ -47,6 +47,8 @@ gManager::gManager()
 	{
 		mWalls.emplace_back(std::make_unique<Wall>("st.bmp", mLevel->WallsPosition()[i], 0, 0, 32, 32));
 	}
+
+	mStartScreen = std::make_unique<StartScreen>();
 }
 
 gManager::~gManager()
@@ -100,6 +102,30 @@ void gManager::CheckCollision()
 //-------------------------------------------------------------------------------------------------
 void gManager::run()
 {
+
+	while (mStartScreen->Play())
+	{
+		mStartScreen->Render();
+		mGraphics->Render();
+		mGraphics->ClearBuffer();
+	}
+	while (!_isDone)
+	{
+		while (SDL_PollEvent(&mEvent) != 0)
+		{
+			if (mEvent.type == SDL_QUIT || (mEvent.type == SDL_KEYDOWN &&
+				mEvent.key.keysym.sym == SDLK_ESCAPE))
+			{
+				_isDone = true;
+			}
+		}
+		mStartScreen->Update();
+		mStartScreen->Render();
+		mGraphics->Render();
+		mGraphics->ClearBuffer();
+	}
+
+	_isDone = false;
 	while (!_isDone)
 	{
 		while (SDL_PollEvent(&mEvent) != 0)

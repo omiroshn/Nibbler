@@ -1,6 +1,6 @@
 #include "Texture.hpp"
 
-Texture::Texture(std::string const &path)
+Texture::Texture(const std::string& path)
 {
 	mGraphics = Graphics::Instance();
 	mTex = AssetManager::Instance()->GetTexture(path);
@@ -10,7 +10,7 @@ Texture::Texture(std::string const &path)
 	mClipped = false;
 }
 
-Texture::Texture(std::string text, std::string path, int size, SDL_Color color)
+Texture::Texture(const std::string& text, const std::string& path, int size, SDL_Color color)
 {
 	mGraphics = Graphics::Instance();
 	mTex = AssetManager::Instance()->GetText(text, path, size, color);
