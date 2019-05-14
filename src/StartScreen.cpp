@@ -65,15 +65,15 @@ void StartScreen::Update()
 	//SDL_SCANCODE_LEFT = 80,
 	//SDL_SCANCODE_DOWN = 81,
 	//SDL_SCANCODE_UP = 82,
-	mInputManager->Update();
 	if (mInputManager->KeyPressed(SDL_SCANCODE_W))
 	{
-		arrow->Translate(Vector2(0.0f, 2.0f));
+		arrow->Translate(Vector2(0.0f, -32.0f));
 		std::cout << "W\n";
 	}
 	if (mInputManager->KeyPressed(SDL_SCANCODE_S))
 	{
-		arrow->Translate(Vector2(0.0f, -2.0f));
+		arrow->Translate(Vector2(0.0f, 32.0f));
 		std::cout << "S\n";
 	}
+	mInputManager->Update();
 }

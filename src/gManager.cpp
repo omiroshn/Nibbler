@@ -122,6 +122,7 @@ void gManager::run()
 		mStartScreen->Update();
 		mStartScreen->Render();
 		mGraphics->Render();
+		mInputManager->UpdatePrevInput();
 		mGraphics->ClearBuffer();
 	}
 

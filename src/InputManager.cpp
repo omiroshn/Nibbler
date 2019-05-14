@@ -38,18 +38,17 @@ InputManager::~InputManager()
 
 bool InputManager::KeyDown(SDL_Scancode scancode)
 {
-
-	return (mKeybordState[scancode]);
+	return (mKeybordState[scancode] != 0);
 }
 
 bool InputManager::KeyPressed(SDL_Scancode scancode)
 {
-	return !mPrevKeybordState[scancode] && mKeybordState[scancode];
+	return (mPrevKeybordState[scancode]) == 0 && (mKeybordState[scancode] != 0);
 }
 
 bool InputManager::KeyRealeased(SDL_Scancode scancode)
 {
-	return mPrevKeybordState[scancode] && !mKeybordState[scancode];
+	return (mPrevKeybordState[scancode]) != 0 && (mKeybordState[scancode] == 0);
 }
 
 //============================================================
