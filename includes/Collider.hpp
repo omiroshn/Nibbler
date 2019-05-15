@@ -25,6 +25,7 @@ public:
 	float			Radius()			const			{ return mRadius;		}
 	CollideType		GetCollideType()	const			{ return mColliderType;	}
 	bool			CheckCircleCollision(Collider&, Collider&);
+	bool			CheckCircleCollision(const Vector2&, const Vector2&, float firstEntityRadius, float secondEntityRadius);
 	
 protected:
 	float		mRadius;

@@ -6,6 +6,7 @@
 //-------------------------------------------------------------------------------------------------
 StartScreen::StartScreen()
 {
+	choiceMade	= false;
 	choice		= 0;
 	snakeGame	= std::make_unique<Texture>("Snake Game", "Roboto-Black.ttf", 32, SDL_Color{ 0, 0, 0, 0 });
 	snakeGame->Pos(Vector2(Graphics::WIDTH * 0.35f, 900.0f));
@@ -17,25 +18,25 @@ StartScreen::StartScreen()
 	quit->Pos(Vector2(Graphics::WIDTH * 0.4f, 996.0f));
 
 	//backGround = std::make_unique<Texture>();
-	arrow = std::make_unique<Texture>("->", "Roboto-Black.ttf", 32, SDL_Color{ 0, 0, 0, 0 });;
+
+	arrow		= std::make_unique<Texture>("->", "Roboto-Black.ttf", 32, SDL_Color{ 0, 0, 0, 0 });;
 	arrow->Pos(Vector2(Vector2(Graphics::WIDTH * 0.36f, 932.0f)));
 	mInputManager = InputManager::Instance();
 }
 //=================================================================================================
 // Play
 //-------------------------------------------------------------------------------------------------
-bool StartScreen::Play()
+bool StartScreen::PlayScreen(float _amount)
 {
 	Vector2 higherPoint(Graphics::WIDTH * 0.35f, 68.0f);
-	Vector2 add(0.0f, -0.05f);
 
 	if(snakeGame->Pos() != higherPoint)
 	{
-		snakeGame->Translate(Vector2(add));
-		onePlayer->Translate(Vector2(add));
-		twoPlayer->Translate(Vector2(add));
-		quit->Translate(Vector2(add));
-		arrow->Translate(Vector2(add));
+		snakeGame->Translate(Vector2(0.0f, _amount));
+		onePlayer->Translate(Vector2(0.0f, _amount));
+		twoPlayer->Translate(Vector2(0.0f, _amount));
+		quit->Translate(Vector2(0.0f, _amount));
+		arrow->Translate(Vector2(0.0f, _amount));
 		return true;
 	}
 	else
@@ -60,20 +61,19 @@ void StartScreen::Render()
 //-------------------------------------------------------------------------------------------------
 void StartScreen::Update()
 {
-	// add input Handling
-	//SDL_SCANCODE_RIGHT = 79,
-	//SDL_SCANCODE_LEFT = 80,
-	//SDL_SCANCODE_DOWN = 81,
-	//SDL_SCANCODE_UP = 82,
-	if (mInputManager->KeyPressed(SDL_SCANCODE_W))
+	if (mInputManager->KeyPressed(SDL_SCANCODE_W) && choice > 0)
 	{
 		arrow->Translate(Vector2(0.0f, -32.0f));
-		std::cout << "W\n";
+		--choice;
 	}
-	if (mInputManager->KeyPressed(SDL_SCANCODE_S))
+	if (mInputManager->KeyPressed(SDL_SCANCODE_S) && choice < 2)
 	{
 		arrow->Translate(Vector2(0.0f, 32.0f));
-		std::cout << "S\n";
+		++choice;
+	}
+	if (mInputManager->KeyPressed(SDL_SCANCODE_KP_ENTER))
+	{
+		choiceMade = true;
 	}
 	mInputManager->Update();
 }

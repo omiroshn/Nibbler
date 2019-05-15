@@ -20,14 +20,15 @@ public:
 	void			Render();
 	void			HandleInput(float deltaTime);
 
+	bool			IsAlive() const;
 	int32_t			Score() const;
 	virtual void	Translate(Vector2 amount) override;
 	void			Collide(Collider&);
 
 protected:
+	void			CollideWithSelf();
 	void			CollideWithWall();
 	void			CollideWithFood();
-	void			CollideWithSelf();
 
 	void			ChangeDirectionBody(Texture&, const Vector2& previousDirection);
 	void			ChangeDirectionTail(Texture&);

@@ -8,7 +8,14 @@
 //--------------------------------------------------------------------------------------------------
 class GameEntity
 {
+public:
+	enum TextureSizes
+	{
+		SQUARE_16x16 = 16,
+		SQUARE_32x32 = 32,
 
+		UNKNOWN = -1
+	};
 public:
 	GameEntity(float x = 0.0f, float y = 0.0f);
 	virtual ~GameEntity();

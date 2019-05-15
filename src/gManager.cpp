@@ -90,6 +90,13 @@ void gManager::Update()
 //-------------------------------------------------------------------------------------------------
 void gManager::CheckCollision()
 {
+	for (auto& wall : mWalls)
+	{
+		if (mPlayer->CheckCircleCollision(*mPlayer, *wall))
+		{
+			mPlayer->Collide(*wall);
+		}
+	}
 	if (mPlayer->CheckCircleCollision(*mPlayer, *mFood))
 	{
 		mPlayer->Collide(*mFood);
@@ -98,16 +105,20 @@ void gManager::CheckCollision()
 	}
 }
 //=================================================================================================
-// run
+// PlayStartScreen
 //-------------------------------------------------------------------------------------------------
-void gManager::run()
+void gManager::PlayStartScreen()
 {
-
-	while (mStartScreen->Play())
+	while (mStartScreen->PlayScreen(-mTimer->getDeltaTime()))
 	{
-		mStartScreen->Render();
-		mGraphics->Render();
-		mGraphics->ClearBuffer();
+		mTimer->Update();
+		if (mTimer->getDeltaTime() >= (0.2f / FrameRate))
+		{
+			mStartScreen->Render();
+			mGraphics->Render();
+			mGraphics->ClearBuffer();
+			mTimer->Reset();
+		}
 	}
 	while (!_isDone)
 	{
@@ -119,15 +130,32 @@ void gManager::run()
 				_isDone = true;
 			}
 		}
+		if (mStartScreen->ChoiceMade())
+		{
+			_isDone = true;
+		}
 		mStartScreen->Update();
 		mStartScreen->Render();
 		mGraphics->Render();
 		mInputManager->UpdatePrevInput();
 		mGraphics->ClearBuffer();
 	}
-
-	_isDone = false;
-	while (!_isDone)
+	// $todo: make 2 player game and render second player
+	switch (mStartScreen->Choice())
+	{
+	case 0:	_isDone = false;	break;
+	case 1:	_isDone = false;	break;
+	case 2:	_isDone = true;		break;
+	default:	break;
+	}
+}
+//=================================================================================================
+// run
+//-------------------------------------------------------------------------------------------------
+void gManager::run()
+{
+	PlayStartScreen();
+	while (!_isDone && mPlayer->IsAlive())
 	{
 		while (SDL_PollEvent(&mEvent) != 0)
 		{
@@ -140,7 +168,7 @@ void gManager::run()
 
 		mTimer->Update();
 		mPlayer->HandleInput(mTimer->getDeltaTime());
-		if (mTimer->getDeltaTime() >= (10.0f / FrameRate))
+		if (mTimer->getDeltaTime() >= (12.0f / FrameRate))
 		{
 			HandleInput();
 			CheckCollision();

@@ -15,9 +15,12 @@ public:
 	void	Render();
 	void	Update();
 
-	bool					Play();
+	bool					PlayScreen(float amount);
+	bool					ChoiceMade()	const { return choiceMade;	}
+	int8_t					Choice()		const { return choice;		}
 
 protected:
+	bool						choiceMade;
 	int8_t						choice;
 	std::unique_ptr<Texture>	snakeGame;
 	std::unique_ptr<Texture>	onePlayer;

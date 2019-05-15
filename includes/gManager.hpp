@@ -27,6 +27,7 @@ private:
 	void				HandleInput();
 	void				Update();
 	void				CheckCollision();
+	void				PlayStartScreen();
 
 	static gManager*	sInstance;
 	const int 			FrameRate = 60;

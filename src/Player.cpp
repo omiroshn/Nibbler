@@ -14,18 +14,17 @@ Player::Player(const std::string& _filePath)
 
 	snakeTextures.reserve(100);
 
-	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 96, 0, 32, 32));
+	// think about some global enum with Texture square sizes
+
+	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 96, 0, SQUARE_32x32, SQUARE_32x32));
 	snakeTextures.back()->Direction(UP_DIR);
 	snakeTextures.back()->Pos(mPos);
 
-	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 64, 32, 32, 32));
+	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 64, 32, SQUARE_32x32, SQUARE_32x32));
 	snakeTextures.back()->Pos(Vector2(128.0f, 160.0f));
 
-	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 64, 32, 32, 32));
-	snakeTextures.back()->Pos(Vector2(128.0f, 192.0f)); 
-
-	tailTexture		= std::make_unique<Texture>(_filePath, 96, 64, 32, 32);
-	tailTexture->Pos(Vector2(128.0f, 224.0f));
+	tailTexture		= std::make_unique<Texture>(_filePath, 96, 64, SQUARE_32x32, SQUARE_32x32);
+	tailTexture->Pos(Vector2(128.0f, 192.0f));
 	mInputManager	= InputManager::Instance();
 
 }
@@ -118,7 +117,21 @@ void Player::CollideWithFood()
 //-------------------------------------------------------------------------------------------------
 void Player::CollideWithSelf()
 {
-	isAlive = false;
+	// not working
+	//for (auto& snake : snakeTextures)
+	//{
+	//	if (CheckCircleCollision(snakeTextures.front()->Pos(), snake->Pos(), SQUARE_16x16, SQUARE_16x16))
+	//	{
+	//		isAlive = false;
+	//	}
+	//}
+}
+//=================================================================================================
+// Score
+//-------------------------------------------------------------------------------------------------
+bool Player::IsAlive() const
+{
+	return isAlive;
 }
 //=================================================================================================
 // Score
