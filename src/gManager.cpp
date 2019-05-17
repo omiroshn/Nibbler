@@ -167,7 +167,7 @@ void gManager::run()
 		}
 
 		mTimer->Update();
-		mPlayer->HandleInput(mTimer->getDeltaTime());
+		mPlayer->HandleInput();
 		if (mTimer->getDeltaTime() >= (12.0f / FrameRate))
 		{
 			HandleInput();

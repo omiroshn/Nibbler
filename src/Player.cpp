@@ -5,20 +5,17 @@
 //	Tail and Head need separate rendering to avoid separate rotation function for them
 //-------------------------------------------------------------------------------------------------
 Player::Player(const std::string& _filePath)
-: eInherited(16, PLAYER), filePath(_filePath)
+: eInherited(RADIUS16, PLAYER), filePath(_filePath)
 {
 	isAlive			= true;
-	speed			= 5.0f;
 	score			= 0;
 	mPos			= Vector2(128.0f, 128.0f);
 
 	snakeTextures.reserve(100);
 
-	// think about some global enum with Texture square sizes
-
-	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 96, 0, SQUARE_32x32, SQUARE_32x32));
-	snakeTextures.back()->Direction(UP_DIR);
-	snakeTextures.back()->Pos(mPos);
+	headTexture = std::make_unique<Texture>(_filePath, 96, 0, SQUARE_32x32, SQUARE_32x32);
+	headTexture->Direction(UP_DIR);
+	headTexture->Pos(mPos);
 
 	snakeTextures.push_back(std::make_unique<Texture>(_filePath, 64, 32, SQUARE_32x32, SQUARE_32x32));
 	snakeTextures.back()->Pos(Vector2(128.0f, 160.0f));
@@ -26,7 +23,6 @@ Player::Player(const std::string& _filePath)
 	tailTexture		= std::make_unique<Texture>(_filePath, 96, 64, SQUARE_32x32, SQUARE_32x32);
 	tailTexture->Pos(Vector2(128.0f, 192.0f));
 	mInputManager	= InputManager::Instance();
-
 }
 //=================================================================================================
 //	~Player
@@ -38,13 +34,15 @@ Player::~Player()
 //-------------------------------------------------------------------------------------------------
 void Player::Update()
 {
-	Translate(snakeTextures.front()->Direction());
+	Translate(headTexture->Direction());
+	CollideWithSelf();
 }
 //=================================================================================================
 // Render
 //-------------------------------------------------------------------------------------------------
 void Player::Render()
 {
+	headTexture->Render();
 	for(auto &body : snakeTextures)
 	{
 		body->Render();
@@ -54,32 +52,32 @@ void Player::Render()
 //=================================================================================================
 // HandleInput
 //-------------------------------------------------------------------------------------------------
-void Player::HandleInput(float deltaTime)
+void Player::HandleInput()
 {
 	//mInputManager->Update();
-	if (mInputManager->KeyDown(SDL_SCANCODE_W) && snakeTextures.front()->Direction() != DOWN_DIR)
+	if (mInputManager->KeyDown(SDL_SCANCODE_W) && headTexture->Direction() != DOWN_DIR)
 	{
-		snakeTextures.front()->setStartX(96);
-		snakeTextures.front()->setStartY(0);
-		snakeTextures.front()->Direction(UP_DIR);
+		headTexture->setStartX(96);
+		headTexture->setStartY(0);
+		headTexture->Direction(UP_DIR);
 	}
-	else if (mInputManager->KeyDown(SDL_SCANCODE_S) && snakeTextures.front()->Direction() != UP_DIR)
+	else if (mInputManager->KeyDown(SDL_SCANCODE_S) && headTexture->Direction() != UP_DIR)
 	{
-		snakeTextures.front()->setStartX(128);
-		snakeTextures.front()->setStartY(32);
-		snakeTextures.front()->Direction(DOWN_DIR);
+		headTexture->setStartX(128);
+		headTexture->setStartY(32);
+		headTexture->Direction(DOWN_DIR);
 	}
-	else if (mInputManager->KeyDown(SDL_SCANCODE_D) && snakeTextures.front()->Direction() != LEFT_DIR)
+	else if (mInputManager->KeyDown(SDL_SCANCODE_D) && headTexture->Direction() != LEFT_DIR)
 	{
-		snakeTextures.front()->setStartX(128);
-		snakeTextures.front()->setStartY(0);
-		snakeTextures.front()->Direction(RIGHT_DIR);
+		headTexture->setStartX(128);
+		headTexture->setStartY(0);
+		headTexture->Direction(RIGHT_DIR);
 	}
-	else if (mInputManager->KeyDown(SDL_SCANCODE_A) && snakeTextures.front()->Direction() != RIGHT_DIR)
+	else if (mInputManager->KeyDown(SDL_SCANCODE_A) && headTexture->Direction() != RIGHT_DIR)
 	{
-		snakeTextures.front()->setStartX(96);
-		snakeTextures.front()->setStartY(32);
-		snakeTextures.front()->Direction(LEFT_DIR);
+		headTexture->setStartX(96);
+		headTexture->setStartY(32);
+		headTexture->Direction(LEFT_DIR);
 	}
 }
 //=================================================================================================
@@ -118,13 +116,14 @@ void Player::CollideWithFood()
 void Player::CollideWithSelf()
 {
 	// not working
-	//for (auto& snake : snakeTextures)
-	//{
-	//	if (CheckCircleCollision(snakeTextures.front()->Pos(), snake->Pos(), SQUARE_16x16, SQUARE_16x16))
-	//	{
-	//		isAlive = false;
-	//	}
-	//}
+	/*for (auto& snake : snakeTextures)
+	{
+		if (CheckCircleCollision(headTexture->Pos(), snake->Pos(), SQUARE_16x16, SQUARE_16x16))
+		{
+			std::cout << "Killed\n";
+			isAlive = false;
+		}
+	}*/
 }
 //=================================================================================================
 // Score
@@ -161,16 +160,14 @@ void Player::BodyGrow()
 //-------------------------------------------------------------------------------------------------
 void Player::Translate(Vector2 _amount)
 {
-	mPos += _amount;
-
-	Vector2 prevHeadPos				= snakeTextures.front()->Pos();
-	Vector2 currentHeadDirection	= snakeTextures.front()->Direction(); // current
+	Vector2 prevHeadPos				= headTexture->Pos();
+	Vector2 currentHeadDirection	= headTexture->Direction(); // current
 	Vector2 prevBodyPos;
 	Vector2 prevBodyDir;
 
-	snakeTextures.front()->Pos(mPos);
-	// 1 because 0 is head
-	for(size_t i = 1; i < snakeTextures.size(); ++i)
+	mPos += _amount;
+	headTexture->Translate(_amount);
+	for(size_t i = 0; i < snakeTextures.size(); ++i)
 	{
 		prevBodyPos		= snakeTextures[i]->Pos();
 		prevBodyDir		= snakeTextures[i]->Direction();
@@ -265,7 +262,6 @@ void Player::ChangeDirectionBody(Texture& _body, const Vector2& _previousDirecti
 //--------------------------------------------------------------------------------------------------
 void Player::ChangeDirectionTail(Texture& _tail)
 {
-
 	if(_tail.Direction() == RIGHT_DIR)
 	{
 		_tail.setStartX(128);

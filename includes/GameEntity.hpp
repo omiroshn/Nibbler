@@ -14,6 +14,7 @@ public:
 		SQUARE_16x16 = 16,
 		SQUARE_32x32 = 32,
 
+		RADIUS16 = 16,
 		UNKNOWN = -1
 	};
 public:

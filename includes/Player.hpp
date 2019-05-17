@@ -1,8 +1,8 @@
 #ifndef _PLAYER_HPP_
 #define	_PLAYER_HPP_
 
-#include "Collider.hpp"
 #include "InputManager.hpp"
+#include "Collider.hpp"
 #include "Texture.hpp"
 #include <vector>
 
@@ -18,7 +18,7 @@ public:
 
 	void			Update();
 	void			Render();
-	void			HandleInput(float deltaTime);
+	void			HandleInput();
 
 	bool			IsAlive() const;
 	int32_t			Score() const;
@@ -35,9 +35,9 @@ protected:
 	void			BodyGrow();
 
 	bool									isAlive;
-	float									speed;
 	int32_t									score;
 	std::string								filePath;
+	std::unique_ptr<Texture>				headTexture;
 	std::unique_ptr<Texture>				tailTexture;
 	std::vector<std::unique_ptr<Texture>>	snakeTextures;
 	InputManager*							mInputManager;
