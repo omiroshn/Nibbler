@@ -106,7 +106,6 @@ void Player::CollideWithWall()
 void Player::CollideWithFood()
 {
 	// score += Food->ValueScore() // like this, in gManager set Player Score
-
 	score += 10;
 	BodyGrow();
 }
@@ -116,14 +115,14 @@ void Player::CollideWithFood()
 void Player::CollideWithSelf()
 {
 	// not working
-	/*for (auto& snake : snakeTextures)
+	for (auto& snake : snakeTextures)
 	{
 		if (CheckCircleCollision(headTexture->Pos(), snake->Pos(), SQUARE_16x16, SQUARE_16x16))
 		{
 			std::cout << "Killed\n";
 			isAlive = false;
 		}
-	}*/
+	}
 }
 //=================================================================================================
 // Score
@@ -144,16 +143,12 @@ int32_t Player::Score() const
 //-------------------------------------------------------------------------------------------------
 void Player::BodyGrow()
 {
-	// $todo find a proper way to render the tail
-
-	Vector2 prevBodyPartPos = snakeTextures.back()->Pos();
-	Vector2 prevBodyPartDir = snakeTextures.back()->Direction();
 	snakeTextures.push_back(std::make_unique<Texture>(filePath, 96, 0, 32, 32));
-	snakeTextures.back()->Pos(prevBodyPartPos);
-	snakeTextures.back()->Direction(prevBodyPartDir);
+	snakeTextures.back()->Pos(tailTexture->Pos());
+	snakeTextures.back()->Direction(tailTexture->Direction());
+	
 	tailTexture->Pos(snakeTextures.back()->Pos());
 	tailTexture->Direction(snakeTextures.back()->Direction());
-	//Update();
 }
 //=================================================================================================
 // Translate

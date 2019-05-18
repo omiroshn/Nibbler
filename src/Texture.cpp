@@ -8,6 +8,7 @@ Texture::Texture(const std::string& path)
 	mRenderRect.w = mWidth;
 	mRenderRect.h = mHeight;
 	mClipped = false;
+	mScale = Vector2(1.0f, 1.0f);
 }
 
 Texture::Texture(const std::string& text, const std::string& path, int size, SDL_Color color)
@@ -18,6 +19,7 @@ Texture::Texture(const std::string& text, const std::string& path, int size, SDL
 	SDL_QueryTexture(mTex, NULL, NULL, &mWidth, &mHeight);
 	mRenderRect.w = mWidth;
 	mRenderRect.h = mHeight;
+	mScale = Vector2(1.0f, 1.0f);
 }
 
 Texture::~Texture()
@@ -33,6 +35,10 @@ void Texture::Render()
 
 	mRenderRect.x = static_cast<int32_t>(pos.x);
 	mRenderRect.y = static_cast<int32_t>(pos.y);
+	//mRenderRect.x = static_cast<int32_t>(pos.x - mWidth * mScale.x * 0.5f);
+	//mRenderRect.y = static_cast<int32_t>(pos.y - mHeight * mScale.y * 0.5f);
+	mRenderRect.w = static_cast<int32_t>(mWidth * mScale.x);
+	mRenderRect.h = static_cast<int32_t>(mHeight * mScale.y);
 	mGraphics->DrawTexture(mTex, (mClipped)? &mClipRect : NULL , &mRenderRect);
 }
 
@@ -49,4 +55,5 @@ Texture::Texture(std::string const &path, int x, int y, int w, int h)
 	mClipRect.y		= y;
 	mClipRect.w		= mWidth;
 	mClipRect.h		= mHeight;
+	mScale = Vector2(1.0f, 1.0f);
 }

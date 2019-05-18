@@ -44,7 +44,7 @@ public:
 protected:
 
 	bool		mActive;
-	float		mRadius;
+	//float		mRadius;
 	float		mRotation;
 	Vector2		mDirection;
 	Vector2		mPos;
